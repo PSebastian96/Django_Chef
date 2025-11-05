@@ -1,0 +1,6 @@
+.offcanvas .nav-link.current{
+    color: #694611 !important;      /* Purple text */
+    background-color: rgba(248, 154, 32, 0.733); /* light purple background */
+    font-weight: bold;               /* Optional: bold text */
+    border-radius: 0.25rem;          /* Same as Bootstrap spacing */
+}

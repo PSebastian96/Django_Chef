@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<!-- search bar  -->
+<div class="m-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-12">
+                <div class="input-group rounded">
+                    <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- recipe card listing -->
+{% if recipes %}
+<div class="row row-cols-1 row-cols-md-3 g-4">
+   {% for recipe in recipes %}
+    <div class="col mb-3">
+        <div class="card border-dark rounded bg-secondary h-100">
+            <h3 class="card-header text-center text-white fw-semibold">{{ recipe.title }}</h3>
+            {% if recipe.image %}
+              <img src="{{ recipe.image.url }}" alt="Image of {{ recipe.title }}">
+            {% else %}
+              <img src="{% static 'img/default_meal.png' %}" class="img-fluid" alt="default_food_image">
+            {% endif %}
+            <div class="card-body">
+                <div class="row g-2">
+                    <div class="col-6">
+                      <div class="border rounded text-center p-3">
+                        <p class="mb-0 fw-semibold badge rounded-pill bg-info">Category:</p>
+                        <br>
+                        <span class="m-0 p-0 text-white">{{ recipe.category.name|default:"Uncategorized" }}</span>
+                    </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="border rounded text-center p-3">
+                        <p class="mb-0 fw-semibold badge rounded-pill bg-danger">Spice Level:</p>
+                        <br>
+                        <span class="m-0 p-0 text-white">{{ recipe.spice_level }} of 5</span>
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="border rounded text-center p-3">
+                        <p class="mb-0 fw-semibold badge rounded-pill bg-success">Prep Time:</p>
+                        <p class="m-0 p-0 text-white">{{ recipe.prep_time }} {{ recipe.prep_time_unit }}</p>
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="border rounded text-center p-3">
+                        <p class="mb-0 fw-semibold badge rounded-pill bg-primary">Cook Time:</p>
+                        <p class="m-0 p-0 text-white">{{ recipe.cook_time }} {{ recipe.cook_time_unit }}</p>
+                      </div>
+                    </div>
+                    <div class="col-12 text-center pt-2">
+                        <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                          <a href="{% url 'read_recipe' recipe.pk recipe.slug %}" type="button" class="btn btn-info">Read <i class="bi bi-book-half"></i></a>
+                          <div class="btn-group" role="group">
+                              <button id="btnGroupDrop3" type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                              <div class="dropdown-menu" aria-labelledby="btnGroupDrop3">
+                                  <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ingredientsModal-{{recipe.id}}">Ingredients <i class="bi bi-list-stars"></i></a>
+                                  <a class="dropdown-item" href="#">Add to Favourites<i class="bi bi-bookmark-heart"></i></a>
+                                  <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ recipe.id }}">Delete <i class="bi bi-trash-fill"></i></a>
+                              </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <!-- Ingredients Modal -->
+        <div class="modal" id="ingredientsModal-{{recipe.id}}">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content bg-success">
+              <div class="modal-header">
+                <h5 class="modal-title text-white"><i class="bi bi-basket2"></i>  {{ recipe.title }} - Ingredients List</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true"></span>
+                </button>
+              </div>
+              <div class="modal-body text-white">
+                {% if recipe.ingredients.all %}
+                  <ul>
+                    {% for ing in recipe.ingredients.all %}
+                      <li>{{ ing.name }} - {{ ing.quantity }}</li>
+                    {% endfor %}
+                  </ul>
+                {% else %}
+                  <p>No ingredients listed for this recipe.</p>
+                {% endif %}
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Delete Modal -->
+        <div class="modal fade" id="deleteModal-{{ recipe.id }}" tabindex="-1">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <form method="post" action="">
+                {% csrf_token %}
+                <div class="modal-header bg-light">
+                  <h5 class="modal-title text-danger">Deleting {{ recipe.title }}...</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <p>This will also permanently remove all associated ingredients and steps.</p>
+                  <p class="text-danger fw-semibold">This action is permanent!</p>
+                </div>
+                <div class="modal-footer bg-light">
+                  <button type="submit" class="btn btn-danger">Delete</button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="row row-cols-1 row-cols-md-3 g-4">
+  <h1>No recipes found</h1>
+</div>
+{% endif %}
+{% endblock %}

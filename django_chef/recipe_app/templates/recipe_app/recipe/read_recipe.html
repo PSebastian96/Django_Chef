@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="container py-5">
+  <!-- Title Section -->
+  <div class="text-center mb-5">
+    <h2 class="fw-bold text-white">{{ recipe.title }}</h2>
+    <p class="text-white fst-italic">Category: {{ recipe.category.name|default:"Uncategorized" }}</p>
+  </div>
+
+
+  <!-- Buttons -->
+    <div class="d-flex justify-content-between mt-4">
+        <a href="{% url 'recipe_list' %}" class="btn btn-secondary">
+          <i class="bi bi-arrow-left"></i> Back to Recipes
+        </a>
+        <div>
+          <a href="{% url 'update_recipe' recipe.pk recipe.slug %}" class="btn btn-warning me-2"><i class="bi bi-pencil-square"></i> Edit</a>
+          <a href="{% url 'delete_recipe' recipe.pk recipe.slug %}" class="btn btn-danger"><i class="bi bi-trash"></i> Delete</a>
+        </div>
+    </div>
+  </div>
+
+  <!-- IMG Section -->
+    <div class="container-fluid text-center my-4">
+    {% if recipe.image %}
+    <img src="{{ recipe.image.url }}" alt="Image of {{ recipe.title }}">
+    {% else %}
+    <img src="{% static 'img/default_meal.png' %}" class="img-fluid" alt="default_food_image">
+    {% endif %}
+    </div>
+
+  <!-- Recipe Info -->
+  <div class="card mb-4 border-dark shadow">
+    <div class="card-body">
+      <div class="row text-center mb-4">
+        <div class="col-md-3 col-6">
+          <strong class="badge rounded-pill bg-success">Prep Time:</strong><br>{{ recipe.prep_time }} min
+        </div>
+        <div class="col-md-3 col-6">
+          <strong class="badge rounded-pill bg-primary">Cook Time:</strong><br>{{ recipe.cook_time }} min
+        </div>
+        <div class="col-md-3 col-6">
+          <strong class="badge rounded-pill bg-danger">Spice Level:</strong><br>{{ recipe.spice_level }}
+        </div>
+        <div class="col-md-3 col-6">
+          <strong class="badge rounded-pill bg-info">Category:</strong><br>{{ recipe.category.name|default:"N/A" }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Description -->
+  <div class="card mb-4 border-dark shadow">
+      <div class="card-header text-center">
+        <h3>{{ recipe.title }} Description</h3>
+      </div>
+      <div class="card-body">
+        <div class="text-center mb-4">
+          <p class="card-text text-dark lh-lg">
+            {{ recipe.description }}
+          </p>
+        </div>
+      </div>
+  </div>
+
+  <!-- Ingredients Section -->
+  <div class="card border-dark mb-4 shadow-sm">
+    <div class="card-header bg-light fw-bold text-center d-flex justify-content-between align-items-center">
+      <h3 class="m-0">
+        <i class="bi bi-basket2"></i> Ingredients
+      </h3>
+      <a href="{% url 'add_ingredient' recipe.pk recipe.slug %}" class="btn btn-sm btn-success">
+        <i class="bi bi-plus-circle"></i> Add Ingredient
+      </a>
+    </div>
+
+    <ul class="list-group list-group-flush">
+      {% for ingredient in recipe.ingredients.all %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <span>
+            <strong>{{ ingredient.name }}</strong> —
+            {{ ingredient.quantity|default:"" }} {{ ingredient.measure|default:"" }}
+          </span>
+
+          <span class="d-flex gap-2">
+            <a href="{% url 'update_ingredient' ingredient.pk recipe.slug %}" class="btn btn-sm btn-outline-warning">
+              <i class="bi bi-pencil-square"></i>
+            </a>
+            <a href="{% url 'delete_ingredient' ingredient.pk recipe.slug %}" class="btn btn-sm btn-outline-danger">
+              <i class="bi bi-trash"></i>
+            </a>
+          </span>
+        </li>
+      {% empty %}
+        <li class="list-group-item text-muted fst-italic text-center">
+          No ingredients listed yet.
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <!-- Instructions Section -->
+  <div class="card border-dark mb-4 shadow-sm">
+    <div class="card-header bg-light fw-bold text-center d-flex justify-content-between align-items-center">
+      <h3 class="m-0">
+        <i class="bi bi-journal-text"></i> Instructions
+      </h3>
+      <a href="{% url 'add_instruction' recipe.pk recipe.slug %}" class="btn btn-sm btn-success">
+        <i class="bi bi-plus-circle"></i> Add Step
+      </a>
+    </div>
+
+    <ul class="list-group list-group-flush">
+      {% for step in recipe.steps.all %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <span>
+            <strong>Step {{ step.step_number }}:</strong> {{ step.step }}
+          </span>
+
+          <span class="d-flex gap-2">
+            <a href="{% url 'update_instruction' step.pk recipe.slug %}" class="btn btn-sm btn-outline-warning">
+              <i class="bi bi-pencil-square"></i>
+            </a>
+            <a href="{% url 'delete_instruction' step.pk recipe.slug %}" class="btn btn-sm btn-outline-danger">
+              <i class="bi bi-trash"></i>
+            </a>
+          </span>
+        </li>
+      {% empty %}
+        <li class="list-group-item text-muted fst-italic text-center">
+          No steps added yet.
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+<style>
+.card:hover {
+  transform: scale(1.01);
+  box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+}
+</style>
+
+{% endblock %}

@@ -1,0 +1,128 @@
+{% load static %}
+<footer class="bg-secondary text-center fixed pt-4">
+          <div class="container">
+            <div class="row">
+              <aside class="col-lg-3 col-md-6 mb-4 text-center">
+                <img src="{% static 'img/chef_character.png' %}" alt="suitcase" class="container">
+                <p class="fw-bold text-warning">
+                  Django Chef <i class="bi bi-fork-knife"></i> ©Copyright, {{ current_date|date:"Y" }} 
+                </p>
+              </aside>
+              <nav class="col-lg-3 col-md-6 mb-4 pt-5 text-center">
+                <h6 class="fw-bold text-warning text-decoration-underline">Socials:</h6>
+                <ul class="list-unstyled">
+                  <li><a href="https://www.instagram.com/" target="_blank" class="text-decoration-none text-success">Instagram <i class="bi bi-instagram"></i></a></li>
+                  <li><a href="https://www.tiktok.com/en-GB/" target="_blank" class="text-decoration-none text-success">TikTok <i class="bi bi-tiktok"></i></a></li>
+                  <li><a href="https://www.youtube.com/" target="_blank" class="text-decoration-none text-success">Youtube <i class="bi bi-youtube"></i></a></li>
+                  <li><a href="https://uk.linkedin.com/" target="_blank" class="text-decoration-none text-success">LinkedIn <i class="bi bi-linkedin"></i></a></li>
+                </ul>
+              </nav>
+              <nav class="col-lg-3 col-md-6 mb-4 pt-5 text-center">
+                <h6 class="fw-bold text-warning text-decoration-underline">Company</h6>
+                <ul class="list-unstyled">
+                  <li><a href="#aboutModal" class="text-decoration-none text-danger" data-bs-toggle="modal" data-bs-target="#aboutModal">About us</a></li>
+                  <li><a href="#contactModalToggle" class="text-decoration-none text-danger" data-bs-toggle="modal" data-bs-target="#contactModalToggle">Contact</a></li>
+                  <li><a href="##contactModalToggle" class="text-decoration-none text-danger" data-bs-toggle="modal" data-bs-target="#contactModal">Press kit</a></li>
+                </ul>
+              </nav>
+              <nav class="col-lg-3 col-md-6 mb-4 pt-5 text-center">
+                <h6 class="fw-bold text-warning text-decoration-underline">Legal:</h6>
+                <ul class="list-unstyled">
+                  <li><a href="#legalModal" class="text-decoration-none text-info" data-bs-toggle="modal" data-bs-target="#legalModal">Terms of use</a></li>
+                  <li><a href="#legalModal" class="text-decoration-none text-info" data-bs-toggle="modal" data-bs-target="#legalModal">Privacy policy</a></li>
+                  <li><a href="#legalModal" class="text-decoration-none text-info" data-bs-toggle="modal" data-bs-target="#legalModal">Cookie policy</a></li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+</footer>
+
+<!-- aboutModal -->
+<div class="modal fade" id="aboutModal" tabindex="-1" aria-labelledby="aboutModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">About DjangoChef</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>DjangoChef is a part of a portfolio of Kryon Tech Ltd.</p>
+        <p>DjangoChef is a Recipe book and Meal planer Web App.</p>
+        <p>Users can register, login, create and save recipes, also prepare a meal planer for any day and month.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Contact and Press Modal -->
+<div class="modal fade" id="contactModalToggle" aria-hidden="true" aria-labelledby="contactModalToggleLabel" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="contactModalToggleLabel">Contact DjangoChef</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <form id="contactForm">
+          <div class="mb-3">
+            <label for="name" class="form-label">Your Name</label>
+            <input type="text" class="form-control" id="name" placeholder="Enter your name" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="email" class="form-label">Your Email</label>
+            <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="message" class="form-label">Message</label>
+            <textarea class="form-control" id="message" rows="3" placeholder="Type your message..." required></textarea>
+          </div>
+
+          <p class="text-muted small">
+            P.S. This is a demo contact form for the DjangoChef project.
+          </p>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary"  data-bs-target="#contactModalToggle2" data-bs-toggle="modal">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="contactModalToggle2" aria-hidden="true" aria-labelledby="contactModalToggle2" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="contactModalToggle2">Modal 2</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Thank you for contacting DjangoChef! We will get back to you ASAP.
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" data-bs-target="#contactModalToggle2" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- legalModal -->
+<div class="modal fade" id="legalModal" tabindex="-1" aria-labelledby="legalModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="legalModalLabel">Legal</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>This website does not collect data in any form.</p>
+        <p>DjangoChef is just an example of django web app.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Decline</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Accept</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container py-5 text-light">
+  <h2 class="mb-4 text-center text-dark">
+    <i class="bi bi-pencil-square"></i> Update Ingredient
+  </h2>
+
+  <div class="card shadow-lg border-dark p-4 rounded-4" style="max-width: 600px; margin: auto;">
+    <form method="post">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="id_name" class="form-label fw-bold">Ingredient Name</label>
+        {{ form.name }}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_quantity" class="form-label fw-bold">Quantity</label>
+        {{ form.quantity }}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_measure" class="form-label fw-bold">Measurement</label>
+        {{ form.measure }}
+      </div>
+
+      <div class="text-center mt-4">
+        <button type="submit" class="btn btn-warning px-4">
+          <i class="bi bi-save"></i> Update
+        </button>
+        <a href="{% url 'read_recipe' object.recipe.pk object.recipe.slug %}" class="btn btn-secondary px-4">
+          <i class="bi bi-arrow-left"></i> Back
+        </a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="container py-5">
+    <h2 class="text-center mb-4 text-warning">
+        <i class="bi bi-pencil-square"></i> Edit Step for "{{ object.recipe.title }}"
+    </h2>
+
+    <div class="card p-4 shadow-lg rounded-4" style="max-width: 600px; margin: auto;">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="d-flex justify-content-between mt-4">
+                <button type="submit" class="btn btn-warning px-4">
+                    <i class="bi bi-save"></i> Save Changes
+                </button>
+                <a href="{% url 'read_recipe' object.recipe.pk object.recipe.slug %}" class="btn btn-secondary px-4">
+                    <i class="bi bi-x-circle"></i> Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

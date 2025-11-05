@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load static %}
+<head>
+    <title>{% block title %}Django Chef - Create Recipe{% endblock %}</title>
+</head>
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center vh-100 py-4">
+  <div class="card shadow-lg p-4 rounded-4 py-2" style="max-width: 600px; width: 100%;">
+    <h3 class="text-center mb-4">Step 1: Recipe Details</h3>
+
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ wizard.management_form }}
+
+      <div class="mb-3">
+        {{ form.title.label_tag }}
+        {{ form.title }}
+      </div>
+
+      <div class="mb-3">
+        {{ form.description.label_tag }}
+        {{ form.description }}
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label class="form-label fw-bold">Prep Time</label>
+          <div class="input-group">
+            {{ form.prep_time }}
+            {{ form.prep_time_unit }}
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label fw-bold">Cook Time</label>
+          <div class="input-group">
+            {{ form.cook_time }}
+            {{ form.cook_time_unit }}
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        {{ form.spice_level.label_tag }}
+        {{ form.spice_level }}
+      </div>
+
+      <div class="mb-3">
+        {{ form.category.label_tag }}
+        {{ form.category }}
+      </div>
+
+      <div class="mb-3">
+        {{ form.image.label_tag }}
+        {{ form.image }}
+      </div>
+
+      <div class="d-flex justify-content-between mt-4">
+        {% if wizard.steps.prev %}
+          <button name="wizard_goto_step" value="{{ wizard.steps.prev }}" class="btn btn-secondary">Back</button>
+        {% endif %}
+        <button type="submit" class="btn btn-info">Next</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

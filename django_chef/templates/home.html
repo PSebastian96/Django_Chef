@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+{% load static %}
+<head>
+    <title>{% block title %}Django Chef - Home Page{% endblock %}</title>
+</head>
+{% block content %}
+
+<!-- Hero Section -->
+   <section class="text-light p-5 p-lg-0 pt-lg-5 text-center">
+            <div class="container py-3">
+                <div class="row align-items-center justify-content-between">
+                    <div class="col-md">
+                        <h1 class="p-5">Welcome to DjangoChef!</h1>
+                        <h3 class="lead">Create reipes and Plan your meals.</h3>
+                        <a href="{% url 'register' %}" class="btn btn-lg btn-outline-success">Register <i class="bi bi-send"></i></a>
+                    </div>
+                    <div class="col-md p-5 text-center">
+                        <img src="{% static 'img/djangochef.png' %}" class="img-fluid" alt="default_food_image">
+                    </div>
+                </div>
+            </div>
+    </section>
+    <hr class="text-warning">
+<!-- Accordion Section -->
+    <section class="p-5 pb-lg-5 pt-lg-5 text-center">
+        <div class="container text-light py-4">
+            <h1>About DjangoChef</h1>
+        </div>
+        <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button collapsed text-center" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                    What is DjangoChef?
+                </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    DjangoChef is a simple, open-source web app built with Django that helps you manage recipes and plan your meals. It’s designed as both a personal project and a portfolio piece showcasing clean architecture, CRUD functionality, and a responsive UI.
+                </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    What can I do with DjangoChef?
+                </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    You can create, edit, view, and delete recipes, categorize them, and organize your weekly meal plans. It’s perfect for keeping your favorite dishes in one place and planning your cooking schedule.
+                </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingThree">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    How was DjangoChef built?
+                </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    DjangoChef is built with Django and Python on the backend, using HTML, CSS (Tailwind or Bootstrap), and JavaScript on the frontend. It follows the MVC pattern and demonstrates full CRUD (Create, Read, Update, Delete) operations for recipes and meal plans.
+                </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingFour">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                    Who is DjangoChef for?
+                </button>
+                </h2>
+                <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    It’s for anyone who loves to cook, wants a simple way to organize recipes, or is learning web development and wants to see a Django CRUD project in action.                </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingFive">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFour">
+                    Why was DjangoChef built?
+                </button>
+                </h2>
+                <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    DjangoChef was created as a hands-on learning project to strengthen Django skills and demonstrate full-stack development — from database models and views to user experience and design.
+                </div>
+            </div>
+        </div>
+    </section>
+    <hr class="text-warning">
+<!-- Offers Section -->
+    <section class=" text-light p-5 pb-lg-5 pt-lg-5 text-center">
+        <div class="container text-center text-light">
+            <h1>What DjangoChef Offers:</h1>
+        </div>
+        <div class="container">
+            <div class="row align-items-center justify-content-between">
+                <div class="col-md">
+                    <img class="img-fluid" src="{% static 'img/female_chef.png' %}" alt="programming_fundamentals" >
+                </div>
+                <div class="col-md p-5">
+                    <h2>Baking</h2>
+                    <p class="lead">With DjangoChef, you can store and organize your favorite baking recipes, from breads and cookies to cakes and pastries. Plan your next weekend bake, adjust ingredients, and keep track of your oven adventures all in one place. Whether you're experimenting with sourdough or perfecting a brownie recipe, DjangoChef helps you stay organized and inspired in the kitchen.</p>
+                </div>
+            </div>
+        </div>
+        <hr class="text-info">
+        <div class="container">
+            <div class="row align-items-center justify-content-between">
+                <div class="col-md p-5">
+                    <h2>All recipes in one place!</h2>
+                    <p class="lead">Organize, edit, and plan your favorite meals effortlessly with DjangoChef — your personal recipe manager and meal planner. From quick snacks to family favorites, keep every recipe at your fingertips and make meal planning a breeze.</p>
+                </div>
+                <div class="col-md">
+                    <img class="img-fluid" src="{% static 'img/ingredients.png' %}" alt="programming_fundamentals" >
+                </div>
+            </div>
+        </div>
+        <hr class="text-info">
+        <div class="container">
+            <div class="row align-items-center justify-content-between">
+                <div class="col-md">
+                    <img class="img-fluid" src="{% static 'img/male_chef.png' %}" alt="programming_fundamentals" >
+                </div>
+                <div class="col-md p-5">
+                    <h2>Instructions and Steps</h2>
+                    <p class="lead">Follow clear, structured steps for every recipe — from prep to plating, all in one organized view. Manage detailed step-by-step instructions — showcasing Django’s power to handle complex recipe data with simplicity.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <hr class="text-warning">
+<!-- Register Section -->
+    <section class="text-light p-5 p-lg-0 pt-lg-5 mb-5 text-center">
+        <div class="container py-3">
+            <div class="row align-items-center justify-content-between">
+                <div class="col-md">
+                    <img src="{% static 'img/utencils.png' %}" class="img-fluid" alt="default_food_image">
+                </div>
+                <div class="col-md p-5 text-center">
+                    <h1 class="p-5">Join DjangoChef Today!</h1>
+                    <h3 class="lead">Create reipes and Plan your meals.</h3>
+                    <a href="{% url 'register' %}" class="btn btn-lg btn-outline-info">Join Now <i class="bi bi-send"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

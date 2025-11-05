@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="container py-5">
+  <h2 class="text-center mb-5 text-dark fw-bold">
+    ✏️ Update Your Recipe
+  </h2>
+
+  <div class="card border-dark shadow-lg rounded-4" style="max-width: 800px; margin: auto;">
+    <div class="card-body">
+      <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+        {% csrf_token %}
+
+        <!-- Recipe Image Preview -->
+        <div class="text-center mb-4">
+          {% if form.instance.image %}
+            <img src="{{ form.instance.image.url }}" alt="{{ form.instance.title }}"
+                 class="img-fluid rounded shadow" style="max-width: 200px;">
+          {% else %}
+            <img src="{% static 'img/default_meal.png' %}" alt="Default Recipe Image"
+                 class="img-fluid rounded shadow" style="max-width: 200px;">
+          {% endif %}
+        </div>
+
+        <!-- Recipe Title -->
+        <div class="mb-3">
+          {{ form.title.label_tag }}
+          {{ form.title }}
+        </div>
+
+        <!-- Description -->
+        <div class="mb-3">
+          {{ form.description.label_tag  }}
+          {{ form.description }}
+        </div>
+
+        <!-- Prep & Cook Times with Units -->
+        <div class="row g-2 mb-3">
+          <div class="col-md-2">
+            {{ form.prep_time.label_tag }}
+            {{ form.prep_time }}
+          </div>
+          <div class="col-md-2">
+            {{ form.prep_time_unit.label_tag }}
+            {{ form.prep_time_unit }}
+          </div>
+          <div class="col-md-2">
+            {{ form.cook_time.label_tag }}
+            {{ form.cook_time }}
+          </div>
+          <div class="col-md-2">
+            {{ form.cook_time_unit.label_tag }}
+            {{ form.cook_time_unit }}
+          </div>
+          <div class="col-md-4">
+            {{ form.spice_level.label_tag }}
+            {{ form.spice_level }}
+          </div>
+        </div>
+
+        <!-- Category -->
+        <div class="mb-3 form-control">
+          {{ form.category.label_tag }}
+          {{ form.category }}
+        </div>
+
+        <!-- Recipe Image -->
+        <div class="mb-3">
+          {{ form.image.label_tag }}
+          {{ form.image }}
+        </div>
+
+        <!-- Buttons -->
+        <div class="d-flex justify-content-between mt-4">
+          <a href="{% url 'read_recipe' form.instance.pk form.instance.slug %}" class="btn btn-outline-secondary px-4">
+            <i class="bi bi-arrow-left-circle"></i> Cancel
+          </a>
+          <button type="submit" class="btn btn-success px-4">
+            <i class="bi bi-save"></i> Save Changes
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,98 @@
+<nav class="navbar navbar-expand-lg bg-secondary data-bs-theme="dark">
+  <div class="container-fluid">
+    <div class="row w-100 align-items-center">
+      
+      <!-- Left button -->
+      <div class="col-auto">
+        <a class="btn btn-success" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+          <i class="bi bi-list"></i>
+        </a>
+      </div>
+
+      <!-- Center title -->
+      <div class="col text-center">
+        {% if user.is_authenticated %}
+        <a class="navbar-brand fw-bold text-warning" href="{% url 'recipe_list' %}">
+          Django Chef <i class="bi bi-fork-knife"></i>
+        </a>
+        {% else %}
+        <a class="navbar-brand fw-bold text-warning" href="{% url 'home' %}">
+          Django Chef <i class="bi bi-fork-knife"></i>
+        </a>
+        {% endif %}
+      </div>
+
+      <!-- Right column (empty for spacing) -->
+      <div class="col-auto"></div>
+    </div>
+  </div>
+</nav>
+
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+  <div class="offcanvas-header">
+    <h4 class="offcanvas-title bg-warning" id="offcanvasExampleLabel"> <i class="bi bi-journal-text"></i> DjangoChef Menu</h4>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <ul class="nav flex-column">
+      {% if user.is_authenticated %}
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'recipe_list' %}">Recipe List <i class="bi bi-card-list"></i></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Favourite Recipes <i class="bi bi-bookmark-heart"></i></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'create_recipe' %}">Create Recipe <i class="bi bi-journal-plus"></i></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'list_category' %}">Categories <i class="bi bi-tag"></i></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'list_measurement' %}">Measuring Units <i class="bi bi-measuring-cup"></i></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'account' %}">Account <i class="bi bi-person-circle"></i></a>
+      </li>
+      <li class="nav-item px-3">
+        <form method="post" action="{% url 'logout' %}">
+          {% csrf_token %}
+          <button type="submit" class="nav-link btn btn-link text-start p-0">
+            Logout <i class="bi bi-box-arrow-left"></i>
+          </button>
+        </form>
+      </li>
+      {% else %}
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'home' %}">Home <i class="bi bi-house-heart-fill"></i></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'register' %}">Register <i class="bi bi-person-add"></i></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'login' %}">Login <i class="bi bi-box-arrow-in-right"></i></a>
+      </li>
+      {% endif %}
+    </ul>
+  </div>
+</div><div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div>
+      Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
+    </div>
+    <div class="dropdown mt-3">
+      <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+        Dropdown button
+      </button>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="#">Action</a></li>
+        <li><a class="dropdown-item" href="#">Another action</a></li>
+        <li><a class="dropdown-item" href="#">Something else here</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
