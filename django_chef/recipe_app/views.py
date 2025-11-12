@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
 from django.utils.text import slugify
 from .forms import (RecipeForm, IngredientsForm, StepsForm, CustomUserCreation, CustomLoginForm)
-from .models import (Recipe, Ingredient, Step, IngreadientMeasure, CustomUser, Category, IngreadientMeasure)
+from .models import (Recipe, Ingredient, Step, IngreadientMeasure, CustomUser, Category, IngreadientMeasure, FavoriteRecipe)
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 import os
@@ -347,3 +347,26 @@ class DelMeasurement(LoginRequiredMixin, DeleteView):
             IngreadientMeasure,
             pk=self.kwargs['pk'],
         )
+    
+""" 
+Favorite Recipe Add, Delete, List
+"""
+class AddFavorite(LoginRequiredMixin, CreateView):
+    def post(self, request, *args, **kwargs):
+        recipe = get_object_or_404(Recipe, pk=kwargs['pk'])
+        FavoriteRecipe.objects.get_or_create(user=request.user, recipe=recipe)
+        return redirect('read_recipe', pk=recipe.pk, slug=recipe.slug)
+
+class RemoveFavorite():
+    def post(self, request, *args, **kwargs):
+        recipe = get_object_or_404(Recipe, pk=kwargs['pk'])
+        FavoriteRecipe.objects.get_or_create(user=request.user, recipe=recipe).delete()
+        return redirect('read_recipe', pk=recipe.pk, slug=recipe.slug)
+
+class ListFavorite():
+    model = FavoriteRecipe
+    template_name = 'recipe_app/recipe/favorite_list.html'
+    context_object_name = 'favorites'
+
+    def get_queryset(self):
+        return FavoriteRecipe.objects.filter(user=self.request.user).select_related('recipe')

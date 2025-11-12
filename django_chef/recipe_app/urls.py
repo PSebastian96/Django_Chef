@@ -6,7 +6,7 @@ from .views import (CustomUserDetails, CustomUserDetailUpdateView, DelUserView, 
 from .views import (CreateCategory, ListCategories, UpdateCategories, DelCategory,
                     CreateMeasurement, ListMeasurement, UpdateMeasurement, DelMeasurement,
                     ReadRecipe, UpdateRecipe, DelRecipe, CreateIngredient, UpdateIngredient, DelIngredient,
-                    CreateInstruction, Updateinstruction, DelInstruction)
+                    CreateInstruction, Updateinstruction, DelInstruction, AddFavorite, RemoveFavorite, ListFavorite)
 
 urlpatterns = [
     path('', HomePageView.as_view(), name='home'),
@@ -35,5 +35,8 @@ urlpatterns = [
     path('add_instruction/id_<int:pk>/<slug:slug>/', CreateInstruction.as_view(), name='add_instruction'),
     path('update_instruction/id_<int:pk>/<slug:slug>/', Updateinstruction.as_view(), name='update_instruction'),
     path('delete_instruction/id_<int:pk>/<slug:slug>/', DelInstruction.as_view(), name='delete_instruction'),
+    # path('add_favorite/id_<int:pk>/<slug:slug>/', ,name='add_fav'),
+    # path('remove_favorite/id_<int:pk>/<slug:slug>/',, name='remove_fav'),
+    # path('fav_recipe_list/',, name='list_fav'),
     # path('create_recipe/', RecipeWizard.as_view([RecipeForm, IngredientsForm, StepsForm]), name='create_recipe'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
