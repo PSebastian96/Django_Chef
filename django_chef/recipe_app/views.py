@@ -102,6 +102,7 @@ class WizForm(LoginRequiredMixin, SessionWizardView):
         recipe_form = form_list[0]
         recipe = recipe_form.save(commit=False)
         recipe.slug = slugify(recipe.title)
+        recipe.owner = self.request.user
         recipe.save()
 
         # Step 2 — Ingredient
@@ -131,6 +132,10 @@ class RecipeListView(LoginRequiredMixin, ListView):
     template_name = 'recipe_app/recipe/list_recipe.html'
     ordering = ['title']
 
+    def get_queryset(self):
+        # show users own recipes
+        return Recipe.objects.filter(owner=self.request.user).order_by('title')
+
 # read recipe
 class ReadRecipe(LoginRequiredMixin, DetailView):
     model = Recipe
@@ -138,7 +143,7 @@ class ReadRecipe(LoginRequiredMixin, DetailView):
     template_name = 'recipe_app/recipe/read_recipe.html'
 
     def get_object(self, queryset=None):
-        return get_object_or_404(Recipe, pk=self.kwargs.get('pk'),  slug=self.kwargs.get('slug'))
+        return get_object_or_404(Recipe, pk=self.kwargs.get('pk'),  slug=self.kwargs.get('slug'), owner=self.request.user)
 
 # update recipe
 class UpdateRecipe(LoginRequiredMixin, UpdateView):
@@ -156,6 +161,10 @@ class UpdateRecipe(LoginRequiredMixin, UpdateView):
             pk=self.kwargs.get('pk'),
             slug=self.kwargs.get('slug')
         )
+    
+    def get_queryset(self):
+        return Recipe.objects.filter(owner=self.request.user)
+
 
 #delete recipe
 class DelRecipe(LoginRequiredMixin, DeleteView):
@@ -167,6 +176,9 @@ class DelRecipe(LoginRequiredMixin, DeleteView):
     def get_object(self, queryset=None):
         # Ensure only existing recipes are deleted
         return get_object_or_404(Recipe, pk=self.kwargs.get('pk'), slug=self.kwargs.get('slug'))
+
+    def get_queryset(self):
+        return Recipe.objects.filter(owner=self.request.user)
 
 """
 Ingredient CRUD Section

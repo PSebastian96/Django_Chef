@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils import timezone
+from django.conf import settings
 from django.utils.text import slugify
 
 
@@ -45,6 +46,13 @@ class Recipe(models.Model):
     spice_level = models.PositiveSmallIntegerField(choices=SPICE_LEVELS, default=0)
     category = models.ForeignKey(Category, null=True, blank=False, on_delete=models.SET_NULL)
     image = models.ImageField(upload_to='recipe_images/', null=True, blank=True)
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='recipes',
+        null=True,
+        blank=True
+    )
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
@@ -96,3 +104,17 @@ class Step(models.Model):
 
     def __str__(self):
         return f"{self.step_number}. { self.step }"
+    
+# favorite recipe model
+class FavoriteRecipe(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    added_on = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'recipe'], name='unique_user_recipe')
+        ]
+    
+    def __str__(self):
+        return f"{self.user.username}\s favorite recipe: {self.recipe.name}"
