@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="container py-5">
+
+  <!-- Header -->
+  <h2 class="text-center mb-5 text-white fw-bold">
+    {{ user.username }}'s Favorite Recipes
+  </h2>
+
+  <!-- No Favorites Case -->
+  {% if not favorites %}
+    <div class="alert alert-info text-center border border-dark rounded-pill shadow-sm">
+      <h5 class="mb-0">You haven’t added any favorites yet!</h5>
+      <p class="mt-2 mb-0">Browse recipes and click “Add to Favorites” ❤️ to save them here.</p>
+    </div>
+  {% else %}
+
+  <!-- Favorites Grid -->
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for fav in favorites %}
+      <div class="col mb-3">
+        <div class="card border-dark rounded bg-light h-100 shadow-sm">
+
+          <!-- Card Header -->
+          <h3 class="card-header text-center fw-bold bg-primary text-white">
+            {{ fav.recipe.title }}
+          </h3>
+
+          <!-- Image -->
+          {% if fav.recipe.image %}
+            <img src="{{ fav.recipe.image.url }}" alt="Image of {{ fav.recipe.title }}" class="img-fluid">
+          {% else %}
+            <img src="{% static 'img/default_meal.png' %}" alt="Default food image" class="img-fluid">
+          {% endif %}
+
+          <!-- Card Body -->
+          <div class="card-body">
+            <div class="row g-2 text-center">
+
+              <div class="col-6">
+                <div class="border rounded p-3">
+                  <span class="badge bg-info">Category</span>
+                  <p class="text-dark mb-0 fw-semibold">{{ fav.recipe.category.name|default:"Uncategorized" }}</p>
+                </div>
+              </div>
+
+              <div class="col-6">
+                <div class="border rounded p-3">
+                  <span class="badge bg-danger">Spice Level</span>
+                  <p class="text-dark mb-0 fw-semibold">{{ fav.recipe.spice_level }} of 5</p>
+                </div>
+              </div>
+
+              <div class="col-6">
+                <div class="border rounded p-3">
+                  <span class="badge bg-success">Prep Time</span>
+                  <p class="text-dark mb-0 fw-semibold">
+                    {{ fav.recipe.prep_time }} {{ fav.recipe.prep_time_unit }}
+                  </p>
+                </div>
+              </div>
+
+              <div class="col-6">
+                <div class="border rounded p-3">
+                  <span class="badge bg-primary">Cook Time</span>
+                  <p class="text-dark mb-0 fw-semibold">
+                    {{ fav.recipe.cook_time }} {{ fav.recipe.cook_time_unit }}
+                  </p>
+                </div>
+              </div>
+
+              <!-- Buttons -->
+              <div class="col-12 pt-3">
+                <div class="d-flex justify-content-center gap-2">
+                  <a href="{% url 'read_recipe' fav.recipe.pk fav.recipe.slug %}" class="btn btn-info fw-semibold">
+                    Read <i class="bi bi-book-half"></i>
+                  </a>
+
+                  <form method="post" action="{% url 'toggle_favorite' fav.recipe.pk %}">
+                    {% csrf_token %}
+                    <button class="btn btn-outline-danger fw-semibold">
+                      Remove <i class="bi bi-heartbreak"></i>
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+</div>
+
+{% endblock %}

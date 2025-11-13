@@ -1,7 +1,8 @@
 from formtools.wizard.views import SessionWizardView
-from django.views.generic import (CreateView, DetailView, UpdateView, ListView, TemplateView, DeleteView)
+from django.views.generic import (CreateView, DetailView, UpdateView, ListView, TemplateView, DeleteView, View)
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
 from django.utils.text import slugify
@@ -351,21 +352,23 @@ class DelMeasurement(LoginRequiredMixin, DeleteView):
 """ 
 Favorite Recipe Add, Delete, List
 """
-class AddFavorite(LoginRequiredMixin, CreateView):
+class ToggleFavoriteView(LoginRequiredMixin, View):
+    """Add or remove a recipe from favorites."""
     def post(self, request, *args, **kwargs):
         recipe = get_object_or_404(Recipe, pk=kwargs['pk'])
-        FavoriteRecipe.objects.get_or_create(user=request.user, recipe=recipe)
-        return redirect('read_recipe', pk=recipe.pk, slug=recipe.slug)
+        favorite, created = FavoriteRecipe.objects.get_or_create(user=request.user, recipe=recipe)
 
-class RemoveFavorite():
-    def post(self, request, *args, **kwargs):
-        recipe = get_object_or_404(Recipe, pk=kwargs['pk'])
-        FavoriteRecipe.objects.get_or_create(user=request.user, recipe=recipe).delete()
-        return redirect('read_recipe', pk=recipe.pk, slug=recipe.slug)
+        if created:
+            messages.success(request, f"Added <strong>{recipe.title}</strong> to favorites.")
+        else:
+            favorite.delete()
+            messages.info(request, f"Removed <strong>{recipe.title}</strong> from favorites.")
 
-class ListFavorite():
+        return redirect('read_recipe', pk=recipe.pk, slug=recipe.slug)
+    
+class FavoriteListView(LoginRequiredMixin, ListView):
     model = FavoriteRecipe
-    template_name = 'recipe_app/recipe/favorite_list.html'
+    template_name = 'recipe_app/recipe/favorites_list.html'
     context_object_name = 'favorites'
 
     def get_queryset(self):

@@ -62,7 +62,16 @@
                               <button id="btnGroupDrop3" type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                               <div class="dropdown-menu" aria-labelledby="btnGroupDrop3">
                                   <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ingredientsModal-{{recipe.id}}">Ingredients <i class="bi bi-list-stars"></i></a>
-                                  <a class="dropdown-item" href="#">Add to Favourites<i class="bi bi-bookmark-heart"></i></a>
+                                  <form method="post" action="{% url 'toggle_favorite' recipe.pk %}" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="dropdown-item text-start">
+                                      {% if recipe.is_favorite %}
+                                        Remove from Favorites <i class="bi bi-bookmark-x"></i>
+                                      {% else %}
+                                        Add to Favorites <i class="bi bi-bookmark-heart"></i>
+                                      {% endif %}
+                                    </button>
+                                  </form>
                                   <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ recipe.id }}">Delete <i class="bi bi-trash-fill"></i></a>
                               </div>
                           </div>

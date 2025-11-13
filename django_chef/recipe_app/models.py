@@ -75,6 +75,12 @@ class Recipe(models.Model):
     def get_cook_display(self):
         """Return human-readable cook time, e.g., '45 Minutes'."""
         return f"{self.cook_time} {dict(self.TIME_UNITS).get(self.cook_time_unit)}"
+    
+    def is_favorite(self, user):
+        """Return True if this recipe is in the user's favorites."""
+        if not user.is_authenticated:
+            return False
+        return self.favoriterecipe_set.filter(user=user).exists()
 
 # ingredient measure model
 class IngreadientMeasure(models.Model):
