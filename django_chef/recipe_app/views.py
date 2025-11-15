@@ -132,10 +132,22 @@ class RecipeListView(LoginRequiredMixin, ListView):
     queryset = Recipe.objects.all()
     template_name = 'recipe_app/recipe/list_recipe.html'
     ordering = ['title']
-
+    
     def get_queryset(self):
-        # show users own recipes
-        return Recipe.objects.filter(owner=self.request.user).order_by('title')
+        # Get only the recipes created by the logged-in user
+        queryset = Recipe.objects.filter(owner=self.request.user).order_by('title')
+
+        # Get all favorited recipe IDs for this user
+        favorites = set(
+            FavoriteRecipe.objects.filter(user=self.request.user)
+            .values_list('recipe_id', flat=True)
+        )
+
+        # Add a dynamic "is_fav" attribute to each recipe
+        for recipe in queryset:
+            recipe.is_fav = recipe.id in favorites
+
+        return queryset
 
 # read recipe
 class ReadRecipe(LoginRequiredMixin, DetailView):
@@ -356,7 +368,11 @@ class ToggleFavoriteView(LoginRequiredMixin, View):
     """Add or remove a recipe from favorites."""
     def post(self, request, *args, **kwargs):
         recipe = get_object_or_404(Recipe, pk=kwargs['pk'])
-        favorite, created = FavoriteRecipe.objects.get_or_create(user=request.user, recipe=recipe)
+
+        favorite, created = FavoriteRecipe.objects.get_or_create(
+            user=request.user,
+            recipe=recipe
+        )
 
         if created:
             messages.success(request, f"Added <strong>{recipe.title}</strong> to favorites.")
@@ -364,7 +380,10 @@ class ToggleFavoriteView(LoginRequiredMixin, View):
             favorite.delete()
             messages.info(request, f"Removed <strong>{recipe.title}</strong> from favorites.")
 
-        return redirect('read_recipe', pk=recipe.pk, slug=recipe.slug)
+        # return user back to where they came from
+        next_url = request.META.get("HTTP_REFERER", reverse("recipe_list"))
+        return redirect(next_url)
+
     
 class FavoriteListView(LoginRequiredMixin, ListView):
     model = FavoriteRecipe

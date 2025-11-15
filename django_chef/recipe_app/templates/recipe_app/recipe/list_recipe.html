@@ -65,7 +65,7 @@
                                   <form method="post" action="{% url 'toggle_favorite' recipe.pk %}" style="display:inline;">
                                     {% csrf_token %}
                                     <button type="submit" class="dropdown-item text-start">
-                                      {% if recipe.is_favorite %}
+                                      {% if recipe.is_fav %}
                                         Remove from Favorites <i class="bi bi-bookmark-x"></i>
                                       {% else %}
                                         Add to Favorites <i class="bi bi-bookmark-heart"></i>
