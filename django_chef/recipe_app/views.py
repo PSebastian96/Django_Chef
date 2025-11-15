@@ -123,6 +123,8 @@ class WizForm(LoginRequiredMixin, SessionWizardView):
             step=step_form['step']
         )
 
+        messages.success(self.request, f"<strong>{recipe.title}</strong> has been created.")
+    
         return redirect('read_recipe', pk=recipe.pk, slug=recipe.slug)
 
 # list all recipe
@@ -193,10 +195,6 @@ class DelRecipe(LoginRequiredMixin, DeleteView):
     template_name = 'recipe_app/recipe/delete_recipe.html'
     success_url = reverse_lazy('recipe_list')
     context_object_name = 'recipe'
-
-    def get_context_object_name(self, obj):
-        recipe = super().get_context_object_name(obj)
-        return messages.info(self.request,f'{recipe.title} has been deleted!')
     
     def get_object(self, queryset=None):
         # Ensure only existing recipes are deleted
@@ -204,6 +202,10 @@ class DelRecipe(LoginRequiredMixin, DeleteView):
         
     def get_queryset(self):
         return Recipe.objects.filter(owner=self.request.user)
+    
+    def form_valid(self, form):
+        messages.info(self.request, f"<strong>{self.object.title}</strong> has been deleted.",)
+        return super().form_valid(form)
 
 """
 Ingredient CRUD Section
