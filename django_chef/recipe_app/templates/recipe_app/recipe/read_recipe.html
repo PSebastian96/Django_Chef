@@ -49,7 +49,7 @@
         <i class="bi bi-pencil-square"></i> Edit
       </a>
 
-      <a href="{% url 'delete_recipe' recipe.pk recipe.slug %}"
+      <a data-bs-toggle="modal" data-bs-target="#deleteModal-{{ recipe.id }}"
          class="btn btn-danger w-100 w-lg-auto">
         <i class="bi bi-trash"></i> Delete
       </a>
@@ -173,6 +173,28 @@
         </li>
       {% endfor %}
     </ul>
+  </div>
+<!-- Delete Modal Confirmation -->
+  <div class="modal fade" id="deleteModal-{{ recipe.id }}" tabindex="-1">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <form method="post" action="{% url 'delete_recipe' recipe.pk recipe.slug %}">
+                {% csrf_token %}
+                <div class="modal-header bg-light">
+                  <h5 class="modal-title text-danger">Deleting {{ recipe.title }}...</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <p>This will also permanently remove all associated ingredients and steps.</p>
+                  <p class="text-danger fw-semibold">This action is permanent!</p>
+                </div>
+                <div class="modal-footer bg-light">
+                  <button type="submit" class="btn btn-danger">Confirm Delete</button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
   </div>
 
 <style>

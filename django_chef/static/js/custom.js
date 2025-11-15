@@ -1,3 +1,4 @@
+// current page/menu highlighter
 document.addEventListener("DOMContentLoaded", function() {
 const currentPath = window.location.pathname; // e.g., /recipes/
 const links = document.querySelectorAll(".offcanvas .nav-link");
@@ -9,4 +10,3 @@ const links = document.querySelectorAll(".offcanvas .nav-link");
       }
     });
   });
-

@@ -166,8 +166,6 @@ class ReadRecipe(LoginRequiredMixin, DetailView):
 
         return recipe
     
-
-
 # update recipe
 class UpdateRecipe(LoginRequiredMixin, UpdateView):
     model = Recipe
@@ -196,10 +194,14 @@ class DelRecipe(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('recipe_list')
     context_object_name = 'recipe'
 
+    def get_context_object_name(self, obj):
+        recipe = super().get_context_object_name(obj)
+        return messages.info(self.request,f'{recipe.title} has been deleted!')
+    
     def get_object(self, queryset=None):
         # Ensure only existing recipes are deleted
         return get_object_or_404(Recipe, pk=self.kwargs.get('pk'), slug=self.kwargs.get('slug'))
-
+        
     def get_queryset(self):
         return Recipe.objects.filter(owner=self.request.user)
 
@@ -374,6 +376,7 @@ class DelMeasurement(LoginRequiredMixin, DeleteView):
 """ 
 Favorite Recipe Add, Delete, List
 """
+
 class ToggleFavoriteView(LoginRequiredMixin, View):
     """Add or remove a recipe from favorites."""
     def post(self, request, *args, **kwargs):
@@ -385,16 +388,15 @@ class ToggleFavoriteView(LoginRequiredMixin, View):
         )
 
         if created:
-            messages.success(request, f"Added <strong>{recipe.title}</strong> to favorites.")
+            messages.success(request, f"Added <strong class='text-decoration-underline'>{recipe.title}</strong> to favorites.")
         else:
             favorite.delete()
-            messages.info(request, f"Removed <strong>{recipe.title}</strong> from favorites.")
+            messages.info(request, f"Removed <strong class='text-decoration-underline'>{recipe.title}</strong> from favorites.")
 
         # return user back to where they came from
         next_url = request.META.get("HTTP_REFERER", reverse("recipe_list"))
         return redirect(next_url)
 
-    
 class FavoriteListView(LoginRequiredMixin, ListView):
     model = FavoriteRecipe
     template_name = 'recipe_app/recipe/favorites_list.html'

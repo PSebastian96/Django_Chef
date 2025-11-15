@@ -15,15 +15,19 @@
 
    {% include "partials/navbar.html" %}
 
-    <main class="container">
+   {% include "partials/message_alert.html" %}
+
+   <main class="container">
+       
         {% block content %}
         {% endblock %}
+
     </main>
     
     {% include "partials/footer.html" %}
 
-    <script src="{% static 'js/custom.js' %}"></script>
     <script src="{% static 'js/bootstrap.bundle.js' %}"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
     <script src="{% static 'js/htmx.min.js' %}"></script>
 </body>
 </html>
