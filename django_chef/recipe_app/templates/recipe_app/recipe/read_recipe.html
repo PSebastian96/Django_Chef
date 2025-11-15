@@ -10,17 +10,56 @@
   </div>
 
 
-  <!-- Buttons -->
-    <div class="d-flex justify-content-between mt-4">
-        <a href="{% url 'recipe_list' %}" class="btn btn-secondary">
-          <i class="bi bi-arrow-left"></i> Back to Recipes
+<!-- Button Row -->
+<div class="container mt-4">
+
+  <div class="row">
+
+    <!-- LEFT SIDE BUTTONS -->
+    <div class="col-12 col-lg-6 d-flex flex-column align-items-start mb-3">
+
+      {% if recipe.is_fav %}
+        <a href="{% url 'favorites_list' user.username %}" class="btn btn-info mb-2 w-100 w-lg-auto">
+          <i class="bi bi-arrow-left"></i> Back to Favorites
         </a>
-        <div>
-          <a href="{% url 'update_recipe' recipe.pk recipe.slug %}" class="btn btn-warning me-2"><i class="bi bi-pencil-square"></i> Edit</a>
-          <a href="{% url 'delete_recipe' recipe.pk recipe.slug %}" class="btn btn-danger"><i class="bi bi-trash"></i> Delete</a>
-        </div>
+      {% endif %}
+
+      <a href="{% url 'recipe_list' %}" class="btn btn-secondary mb-2 w-100 w-lg-auto">
+        <i class="bi bi-list-task"></i> Back to Recipes
+      </a>
+
     </div>
+
+    <!-- RIGHT SIDE BUTTONS -->
+    <div class="col-12 col-lg-6 d-flex flex-column align-items-lg-end align-items-start">
+
+      <form method="post" action="{% url 'toggle_favorite' recipe.pk %}" class="w-100 w-lg-auto mb-2">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-outline-info w-100 w-lg-auto">
+          {% if recipe.is_fav %}
+            Remove from Favorites <i class="bi bi-bookmark-x"></i>
+          {% else %}
+            Add to Favorites <i class="bi bi-bookmark-heart"></i>
+          {% endif %}
+        </button>
+      </form>
+
+      <a href="{% url 'update_recipe' recipe.pk recipe.slug %}"
+         class="btn btn-warning mb-2 w-100 w-lg-auto">
+        <i class="bi bi-pencil-square"></i> Edit
+      </a>
+
+      <a href="{% url 'delete_recipe' recipe.pk recipe.slug %}"
+         class="btn btn-danger w-100 w-lg-auto">
+        <i class="bi bi-trash"></i> Delete
+      </a>
+
+    </div>
+
   </div>
+
+</div>
+
 
   <!-- IMG Section -->
     <div class="container-fluid text-center my-4">

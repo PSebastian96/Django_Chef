@@ -156,7 +156,17 @@ class ReadRecipe(LoginRequiredMixin, DetailView):
     template_name = 'recipe_app/recipe/read_recipe.html'
 
     def get_object(self, queryset=None):
-        return get_object_or_404(Recipe, pk=self.kwargs.get('pk'),  slug=self.kwargs.get('slug'), owner=self.request.user)
+        recipe = get_object_or_404(Recipe, pk=self.kwargs.get('pk'),  slug=self.kwargs.get('slug'), owner=self.request.user)
+
+        #
+        recipe.is_fav = FavoriteRecipe.objects.filter(
+            user=self.request.user,
+            recipe=recipe
+        ).exists()
+
+        return recipe
+    
+
 
 # update recipe
 class UpdateRecipe(LoginRequiredMixin, UpdateView):

@@ -21,10 +21,10 @@
   <div class="row row-cols-1 row-cols-md-3 g-4">
     {% for fav in favorites %}
       <div class="col mb-3">
-        <div class="card border-dark rounded bg-light h-100 shadow-sm">
+        <div class="card border-dark rounded bg-secondary h-100">
 
           <!-- Card Header -->
-          <h3 class="card-header text-center fw-bold bg-primary text-white">
+          <h3 class="card-header text-center text-white fw-semibold">
             {{ fav.recipe.title }}
           </h3>
 
@@ -40,32 +40,32 @@
             <div class="row g-2 text-center">
 
               <div class="col-6">
-                <div class="border rounded p-3">
-                  <span class="badge bg-info">Category</span>
-                  <p class="text-dark mb-0 fw-semibold">{{ fav.recipe.category.name|default:"Uncategorized" }}</p>
+                <div class="border rounded text-center p-3">
+                  <span class="mb-0 fw-semibold badge rounded-pill bg-info">Category</span>
+                  <p class="m-0 p-0 text-white">{{ fav.recipe.category.name|default:"Uncategorized" }}</p>
                 </div>
               </div>
 
               <div class="col-6">
-                <div class="border rounded p-3">
-                  <span class="badge bg-danger">Spice Level</span>
-                  <p class="text-dark mb-0 fw-semibold">{{ fav.recipe.spice_level }} of 5</p>
+                <div class="border rounded text-center p-3">
+                  <span class="mb-0 fw-semibold badge rounded-pill bg-danger">Spice Level</span>
+                  <p class="m-0 p-0 text-white">{{ fav.recipe.spice_level }} of 5</p>
                 </div>
               </div>
 
               <div class="col-6">
-                <div class="border rounded p-3">
-                  <span class="badge bg-success">Prep Time</span>
-                  <p class="text-dark mb-0 fw-semibold">
+                <div class="border rounded text-center p-3">
+                  <span class="mb-0 fw-semibold badge rounded-pill bg-success">Prep Time</span>
+                  <p class="m-0 p-0 text-white">
                     {{ fav.recipe.prep_time }} {{ fav.recipe.prep_time_unit }}
                   </p>
                 </div>
               </div>
 
               <div class="col-6">
-                <div class="border rounded p-3">
-                  <span class="badge bg-primary">Cook Time</span>
-                  <p class="text-dark mb-0 fw-semibold">
+                <div class="border rounded text-center p-3">
+                  <span class="mb-0 fw-semibold badge rounded-pill bg-primary">Cook Time</span>
+                  <p class="m-0 p-0 text-white">
                     {{ fav.recipe.cook_time }} {{ fav.recipe.cook_time_unit }}
                   </p>
                 </div>
